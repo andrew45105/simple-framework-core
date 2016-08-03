@@ -1,0 +1,22 @@
+{
+  "name": "andrew45105/simple-framework-core",
+  "description": "Source code (handlers, services, helpers) for andrew45105/simple-framework",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrey Antonov",
+      "email": "apologboy@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "phpunit/phpunit": "5.4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Tests\\": "tests/"
+    }
+  }
+}
