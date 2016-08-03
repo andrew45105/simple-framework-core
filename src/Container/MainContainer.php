@@ -1,60 +1,55 @@
 <?php
 
 namespace App\Container;
-use App\Exceptions\ParamsFileNotFoundException;
-use App\Exceptions\ParamsFileNotValidException;
+
+use League\Container\Container;
+use League\Route\RouteCollection;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response\SapiEmitter;
 
 /**
+ * The main container class
+ *
  * Class MainContainer
  */
 class MainContainer
 {
-
-    const PARAMS_FILE_DIR = '';
-    const PARAMS_FILE_NAME = 'parameters.conf';
+    private $container;
+    private $route;
     
     public function __construct()
     {
-        $this->validateParamsFile();
+        $this->container = new Container();
+        $this->container->share('response', Response::class);
+        $this->container->share('request', function () {
+            return ServerRequestFactory::fromGlobals(
+                $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+            );
+        });
+
+        $this->container->share('emitter', SapiEmitter::class);
+
+        $this->route = new RouteCollection($this->container);
     }
 
-    /**
-     * Return value of the parameter
-     *
-     * @param $name
-     *
-     * @return string
-     */
-    public function getParam($name)
+    public function parseRoutes()
     {
-
-        
-        
         
     }
 
-    /**
-     * Validate parameters
-     * 
-     * @throws ParamsFileNotFoundException
-     * @throws ParamsFileNotValidException
-     * 
-     * @return boolean
-     */
-    protected function validateParamsFile()
+    public function createResponse()
     {
-        if (!$file = file_get_contents(self::PARAMS_FILE_DIR . self::PARAMS_FILE_NAME)) {
-            throw new ParamsFileNotFoundException(self::PARAMS_FILE_DIR, self::PARAMS_FILE_NAME);
-        }
-
-        foreach ($file as $param) {
-            trim(str)
-
-            throw new ParamsFileNotValidException(self::PARAMS_FILE_NAME);
-        }
-
-
-        return true;
+        $response = $this->route->dispatch(
+            $this->container->get('request'), 
+            $this->container->get('response')
+        );
+        $this->container->get('emitter')->emit($response);
+    }
+    
+    protected function validateRoutes()
+    {
+        
     }
 
 }
