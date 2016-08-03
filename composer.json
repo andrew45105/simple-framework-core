@@ -9,7 +9,6 @@
       "email": "apologboy@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "phpunit/phpunit": "5.4.*"
   },
