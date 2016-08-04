@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database;
+namespace Andrew45105\SFC\Database;
 
 use Andrew45105\SFC\Container\ParamsContainer;
 use Andrew45105\SFC\Exception\DatabaseException;
@@ -10,7 +10,7 @@ use Andrew45105\SFC\Exception\DatabaseException;
  *
  * Class DBConnection
  *
- * @package App\Database
+ * @package Andrew45105\SFC\Database
  */
 class DBConnection
 {
