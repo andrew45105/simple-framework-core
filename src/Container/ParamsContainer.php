@@ -19,7 +19,6 @@ class ParamsContainer
     private $paramsFileName = 'parameters.conf';
     private $requiredParams = [
         'database_host',
-        'database_port',
         'database_name',
         'database_user',
         'database_password'
