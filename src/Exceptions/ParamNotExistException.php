@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 class ParamNotExistException extends \Exception
 {
 
