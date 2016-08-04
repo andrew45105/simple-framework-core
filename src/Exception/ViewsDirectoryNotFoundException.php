@@ -1,6 +1,6 @@
 <?php
 
-namespace Andrew45105\SimpleFrameworkCore\Exceptions;
+namespace Andrew45105\SimpleFrameworkCore\Exception;
 
 class ViewsDirectoryNotFoundException extends \Exception
 {

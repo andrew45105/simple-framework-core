@@ -1,16 +1,16 @@
 <?php
 
-namespace Andrew45105\SimpleFrameworkCore\Containers;
-use Andrew45105\SimpleFrameworkCore\Exceptions\ParamNotExistException;
-use Andrew45105\SimpleFrameworkCore\Exceptions\ParamsFileNotFoundException;
-use Andrew45105\SimpleFrameworkCore\Exceptions\ParamsFileNotValidException;
+namespace Andrew45105\SimpleFrameworkCore\Container;
+use Andrew45105\SimpleFrameworkCore\Exception\ParamNotExistException;
+use Andrew45105\SimpleFrameworkCore\Exception\ParamsFileNotFoundException;
+use Andrew45105\SimpleFrameworkCore\Exception\ParamsFileNotValidException;
 
 /**
  * Class ParamsContainer
  * 
  * Contains methods working with application parameters
  * 
- * @package Andrew45105\SimpleFrameworkCore\Containers
+ * @package Andrew45105\SimpleFrameworkCore\Container
  */
 class ParamsContainer
 {

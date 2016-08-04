@@ -1,6 +1,6 @@
 <?php
 
-namespace Andrew45105\SimpleFrameworkCore\Controllers;
+namespace Andrew45105\SimpleFrameworkCore\Controller;
 
 use Lex\Parser;
 
@@ -9,7 +9,7 @@ use Lex\Parser;
  * 
  * The base web controller class
  * 
- * @package Andrew45105\SimpleFrameworkCore\Controllers
+ * @package Andrew45105\SimpleFrameworkCore\Controller
  */
 class WebController
 {

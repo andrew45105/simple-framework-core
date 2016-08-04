@@ -1,6 +1,6 @@
 <?php
 
-namespace Andrew45105\SimpleFrameworkCore\Containers;
+namespace Andrew45105\SimpleFrameworkCore\Container;
 
 use League\Container\Container;
 use League\Route\RouteCollection;
@@ -13,7 +13,7 @@ use Zend\Diactoros\Response\SapiEmitter;
  *
  * The main container class
  * 
- * @package Andrew45105\SimpleFrameworkCore\Containers
+ * @package Andrew45105\SimpleFrameworkCore\Container
  */
 class MainContainer
 {
