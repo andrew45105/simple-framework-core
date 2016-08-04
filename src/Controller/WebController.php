@@ -33,13 +33,13 @@ class WebController
      * 
      * @return string
      */
-    protected function getTemplate($currentDir, $viewsFolder, $view, $data = null)
+    protected function getTemplate($currentDir, $view, $data = null)
     {
         return $this->parser->parse(
             file_get_contents(
                 $currentDir .
                 $this->viewsDir .
-                $viewsFolder .
+                $this->getViewsFolderName() .
                 $view .
                 '.lex'
             ),
@@ -57,17 +57,12 @@ class WebController
         $this->viewsDir = $viewsDir;
     }
     
-    protected function getViewsFolderName()
+    private function getViewsFolderName()
     {
         $controllerPath = get_called_class();
         $paths = explode('\\', $controllerPath);
         $controllerName = array_pop($paths);
-        return lcfirst(substr($controllerName, 0, -10));
-    }
-    
-    protected function getCurrentDir()
-    {
-        return __DIR__;
+        return lcfirst(substr($controllerName, 0, -10)) . '/';
     }
 
 }

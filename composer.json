@@ -11,6 +11,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
+    "pyrocms/lex": "2.2.*",
     "phpunit/phpunit": "5.4.*"
   },
   "autoload": {

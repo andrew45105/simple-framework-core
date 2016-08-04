@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a03771b59b7ae8c879eb8107ad3a4f7a",
-    "content-hash": "a1c0f5b095f863934c428108c2a68c42",
+    "hash": "64ff20cbabf107c510686e6ec91053b1",
+    "content-hash": "f9fb84bcbe857f40b7829e4912ff4964",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -691,6 +691,54 @@
                 "xunit"
             ],
             "time": "2016-07-02 15:30:03"
+        },
+        {
+            "name": "pyrocms/lex",
+            "version": "2.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pyrocms/lex.git",
+                "reference": "28ae6125d52ae276f3479a66f9a484796730c4b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pyrocms/lex/zipball/28ae6125d52ae276f3479a66f9a484796730c4b4",
+                "reference": "28ae6125d52ae276f3479a66f9a484796730c4b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "replace": {
+                "fuel/lex": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lex": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Horrigan",
+                    "email": "dan@dhorrigan.com",
+                    "homepage": "http://dhorrigan.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "A lightweight template parser.",
+            "keywords": [
+                "parser",
+                "template"
+            ],
+            "time": "2013-01-11 21:21:48"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
