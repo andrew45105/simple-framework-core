@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace Andrew45105\SimpleFrameworkCore\Exceptions;
 
 class ParamsFileNotValidException extends \Exception
 {
