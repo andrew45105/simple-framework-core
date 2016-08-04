@@ -37,10 +37,15 @@ class MainContainer
 
         $this->routeCollection = new RouteCollection($this->container);
     }
-    
-    public function getRouteCollection()
+
+    public function group($path, callable $group)
     {
-        return $this->routeCollection;
+        return $this->routeCollection->group($path, $group);
+    }
+
+    public function map($httpMethod, $path, $action)
+    {
+        return $this->routeCollection->map($httpMethod, $path, $action);
     }
 
     public function createResponse()
