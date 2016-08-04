@@ -1,6 +1,6 @@
 <?php
 
-namespace Andrew45105\SimpleFrameworkCore\Exception;
+namespace Andrew45105\SFC\Exception;
 
 class ParamsFileNotFoundException extends \Exception
 {
