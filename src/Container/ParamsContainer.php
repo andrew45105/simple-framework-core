@@ -15,7 +15,7 @@ use Andrew45105\SFC\Exception\ParamsFileNotValidException;
 class ParamsContainer
 {
 
-    private $paramsFileDir = '';
+    private $paramsFileDir;
     private $paramsFileName = 'parameters.conf';
     private $requiredParams = [
         'database_host',
@@ -26,8 +26,9 @@ class ParamsContainer
 
     private $paramsList;
 
-    public function __construct()
+    public function __construct($paramsFileDir)
     {
+        $this->paramsFileDir = $paramsFileDir;
         $this->validateAndGetParams();
     }
 
