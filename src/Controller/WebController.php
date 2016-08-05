@@ -67,7 +67,7 @@ class WebController
 
     private function getViewName()
     {
-        $functionName = debug_backtrace()[1]['function'];
+        $functionName = debug_backtrace()[2]['function'];
         return substr($functionName, 0, -6);
     }
 
