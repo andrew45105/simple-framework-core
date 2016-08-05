@@ -8,11 +8,11 @@ use Andrew45105\SFC\Exception\DatabaseException;
 /**
  * Contains methods for work with database
  *
- * Class DBConnection
+ * Class DBManager
  *
  * @package Andrew45105\SFC\Database
  */
-class DBConnection
+class DBManager
 {
 
     private $pdo;
@@ -28,7 +28,7 @@ class DBConnection
 
         $dsn = "mysql:host=$host;dbname=$name";
         $opt = array(
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
         );
         try {
@@ -41,6 +41,59 @@ class DBConnection
     public function getConnection()
     {
         return $this->pdo;
+    }
+
+    /**
+     * Getting object with id = {id}
+     *
+     * @param $class - class of needed object
+     * @param $id
+     */
+    public function getById($class, $id)
+    {
+
+    }
+
+    /**
+     * Getting array of objects, witch params correspond with {params}
+     *
+     * @param $class - class of needed objects
+     * @param array $params
+     */
+    public function getBy($class, array $params)
+    {
+
+    }
+
+    /**
+     * Getting array of all objects
+     *
+     * @param $class - class of needed objects
+     */
+    public function getAll($class)
+    {
+
+    }
+
+    /**
+     * Saves entity to database
+     *
+     * @param $entity - object
+     */
+    public function save($entity)
+    {
+
+    }
+
+    /**
+     * Deleting entity with id = {id}
+     *
+     * @param $class - class of needed object
+     * @param int $id
+     */
+    public function delete($class, $id)
+    {
+
     }
 
 }

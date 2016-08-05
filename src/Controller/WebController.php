@@ -28,7 +28,6 @@ class WebController
      * Return template for response body
      *
      * @param string $currentDir
-     * @param string $view
      * @param array | null $data
      * 
      * @return string
