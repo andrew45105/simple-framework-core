@@ -14,17 +14,24 @@ use Andrew45105\SFC\Exception\DatabaseException;
  */
 class DBManager
 {
-
+    /**
+     * @var \PDO
+     */
     private $pdo;
+
+    /**
+     * @var DBHelper
+     */
+    private $dbHelper;
 
     public function __construct(ParamsContainer $paramsContainer)
     {
-        $this->paramsContainer = $paramsContainer;
-
-        $host = $this->paramsContainer->getParam('database_host');
-        $name = $this->paramsContainer->getParam('database_name');
-        $user = $this->paramsContainer->getParam('database_user');
-        $password = $this->paramsContainer->getParam('database_password');
+        $this->dbHelper = new DBHelper();
+        
+        $host = $paramsContainer->getParam('database_host');
+        $name = $paramsContainer->getParam('database_name');
+        $user = $paramsContainer->getParam('database_user');
+        $password = $paramsContainer->getParam('database_password');
 
         $dsn = "mysql:host=$host;dbname=$name";
         $opt = array(
@@ -46,39 +53,76 @@ class DBManager
     /**
      * Getting object with id = {id}
      *
-     * @param $class - class of needed object
+     * @param $entityName - short entity class name (without full path)
      * @param $id
+     *
+     * @return array
      */
-    public function getById($class, $id)
+    public function getById($entityName, $id)
     {
-
+        $tableName = $this->dbHelper->getTableName($entityName);
+        $query = "SELECT * FROM `{$tableName}` WHERE id = :id LIMIT 1";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     /**
      * Getting array of objects, witch params correspond with {params}
      *
-     * @param $class - class of needed objects
+     * @param $entityName - short entity class name (without full path)
      * @param array $params
+     *
+     * @return array
      */
-    public function getBy($class, array $params)
+    public function getBy($entityName, array $params)
     {
+        $this->dbHelper->validateParamsArray($params);
+        $tableName = $this->dbHelper->getTableName($entityName);
 
+        $query = "SELECT * FROM $tableName WHERE ";
+
+        foreach ($params as $param) {
+            $query .= "`{$param[0]}` = ? OR ";
+        }
+
+        $query = substr($query, 0, strlen($query) - 4);
+
+        $stmt = $this->pdo->prepare($query);
+
+        $count = 0;
+        foreach ($params as $param) {
+            $type = is_int($param[1]) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
+            $stmt->bindParam(++$count, $value, $type);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     /**
      * Getting array of all objects
      *
-     * @param $class - class of needed objects
+     * @param $entityName - short entity class name (without full path)
+     *
+     * @return array
      */
-    public function getAll($class)
+    public function getAll($entityName)
     {
-
+        $tableName = $this->dbHelper->getTableName($entityName);
+        $query = "SELECT * FROM `{$tableName}`";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     /**
      * Saves entity to database
      *
      * @param $entity - object
+     * 
+     * @return boolean
      */
     public function save($entity)
     {
@@ -88,10 +132,12 @@ class DBManager
     /**
      * Deleting entity with id = {id}
      *
-     * @param $class - class of needed object
+     * @param $entityName - short entity class name (without full path)
      * @param int $id
+     * 
+     * @return boolean
      */
-    public function delete($class, $id)
+    public function delete($entityName, $id)
     {
 
     }

@@ -44,27 +44,27 @@ class DBManagerTest extends PHPUnit_Framework_TestCase
 
     public function testGetById()
     {
-        
+        //todo create method
     }
 
     public function testGetBy()
     {
-
+        //todo create method
     }
 
     public function testGetAll()
     {
-
+        //todo create method
     }
 
     public function testSave()
     {
-
+        //todo create method
     }
 
     public function testDelete()
     {
-
+        //todo create method
     }
 
 }
