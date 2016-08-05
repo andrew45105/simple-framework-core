@@ -22,7 +22,6 @@ class ParamsContainerTest extends PHPUnit_Framework_TestCase
     public function testFileNotFoundExceptionGetParam()
     {
         $paramsContainer = new \Andrew45105\SFC\Container\ParamsContainer(__DIR__.'/wrong/path');
-        //$this->expectException(\Andrew45105\SFC\Exception\ParamsFileNotFoundException::class);
     }
 
     /**
@@ -31,7 +30,6 @@ class ParamsContainerTest extends PHPUnit_Framework_TestCase
     public function testFileNotValidExceptionGetParam()
     {
         $paramsContainer = new \Andrew45105\SFC\Container\ParamsContainer(__DIR__.'/data/invalid');
-        //$this->expectException(\Andrew45105\SFC\Exception\ParamsFileNotValidException::class);
     }
 
     /**
@@ -41,7 +39,6 @@ class ParamsContainerTest extends PHPUnit_Framework_TestCase
     {
         $paramsContainer = new \Andrew45105\SFC\Container\ParamsContainer(__DIR__.'/data');
         $paramsContainer->getParam('ooo');
-        //$this->expectException(\Andrew45105\SFC\Exception\ParamNotExistException::class);
     }
 
 }
