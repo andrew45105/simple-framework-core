@@ -58,12 +58,14 @@ class ParamsContainer
      */
     protected function validateAndGetParams()
     {
-        if (!$file = file_get_contents($this->paramsFileDir . '/' . $this->paramsFileName)) {
+
+        if (!file_exists($this->paramsFileDir . '/' . $this->paramsFileName)) {
             throw new ParamsFileNotFoundException($this->paramsFileDir, $this->paramsFileName);
         }
 
-        $requiredParamsCount = 0;
+        $file = file($this->paramsFileDir . '/' . $this->paramsFileName);
 
+        $requiredParamsCount = 0;
         foreach ($file as $params) {
             $params = explode('=', trim(strip_tags($params)));
 
