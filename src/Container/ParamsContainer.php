@@ -66,13 +66,18 @@ class ParamsContainer
 
         foreach ($file as $params) {
             $params = explode('=', trim(strip_tags($params)));
+
+            if (count($params) != 2) {
+                throw new ParamsFileNotValidException($this->paramsFileName);
+            }
+
             $name = trim(strip_tags($params[0]));
             $value = trim(strip_tags($params[1]));
 
-            if (count($params) != 2 || $name == '' || $value == '') {
+            if ($name == '' || $value == '') {
                 throw new ParamsFileNotValidException($this->paramsFileName);
             }
-            if (in_array($name, $this->requiredParams)) {
+            if (in_array($name, $this->requiredParams) && !isset($this->paramsList[$name])) {
                 $requiredParamsCount++;
             }
             $this->paramsList[$name] = $value;
