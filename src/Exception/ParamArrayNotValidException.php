@@ -2,7 +2,7 @@
 
 namespace Andrew45105\SFC\Exception;
 
-class ParamsArrayNotValidException extends \Exception
+class ParamArrayNotValidException extends \Exception
 {
 
     public function __construct($message, $code = 0, \Exception $previous = null) {

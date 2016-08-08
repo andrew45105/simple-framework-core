@@ -24,12 +24,12 @@ class DBManager
      */
     private $dbHelper;
 
-    public function __construct(ParamsContainer $paramsContainer)
+    public function __construct(ParamsContainer $paramsContainer, $isTestMode = false)
     {
         $this->dbHelper = new DBHelper();
         
         $host = $paramsContainer->getParam('database_host');
-        $name = $paramsContainer->getParam('database_name');
+        $name = $isTestMode ? $paramsContainer->getParam('test_database_name') : $paramsContainer->getParam('database_name');
         $user = $paramsContainer->getParam('database_user');
         $password = $paramsContainer->getParam('database_password');
 
@@ -60,42 +60,39 @@ class DBManager
      */
     public function getById($entityName, $id)
     {
-        $tableName = $this->dbHelper->getTableName($entityName);
+        $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $query = "SELECT * FROM `{$tableName}` WHERE id = :id LIMIT 1";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $result = $stmt->fetchAll();
+        return $result ? $result[0] : null;
     }
 
     /**
      * Getting array of objects, witch params correspond with {params}
      *
      * @param $entityName - short entity class name (without full path)
-     * @param array $params
+     * @param array $param
+     * 
+     * Param example - ['title' => 'article1']
      *
      * @return array
      */
-    public function getBy($entityName, array $params)
+    public function getBy($entityName, $param)
     {
-        $this->dbHelper->validateParamsArray($params);
-        $tableName = $this->dbHelper->getTableName($entityName);
+        $this->dbHelper->validateParamArray($param);
 
-        $query = "SELECT * FROM $tableName WHERE ";
+        $tableName = $this->dbHelper->getUnderscoreName($entityName);
+        $key = array_keys($param)[0];
+        $value = array_values($param)[0];
 
-        foreach ($params as $param) {
-            $query .= "`{$param[0]}` = ? OR ";
-        }
-
-        $query = substr($query, 0, strlen($query) - 4);
+        $query = "SELECT * FROM `{$tableName}` WHERE `{$key}` = ?";
 
         $stmt = $this->pdo->prepare($query);
 
-        $count = 0;
-        foreach ($params as $param) {
-            $type = is_int($param[1]) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-            $stmt->bindParam(++$count, $value, $type);
-        }
+        $type = $this->dbHelper->getValueType($value);
+        $stmt->bindParam(1, $value, $type);
 
         $stmt->execute();
         return $stmt->fetchAll();
@@ -110,7 +107,7 @@ class DBManager
      */
     public function getAll($entityName)
     {
-        $tableName = $this->dbHelper->getTableName($entityName);
+        $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $query = "SELECT * FROM `{$tableName}`";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -126,7 +123,33 @@ class DBManager
      */
     public function save($entity)
     {
+        $entityName = $this->dbHelper->getEntityName($entity);
 
+        $tableName = $this->dbHelper->getUnderscoreName($entityName);
+        $data = $this->dbHelper->getInsertingData($entity);
+        
+        $query = "INSERT INTO `{$tableName}` (%s) VALUES (";
+
+        $values = [];
+        $fields = '';
+        foreach ($data as $field => $value) {
+            $query .= "?, ";
+            $fields .= "`{$field}`, ";
+            $values[] = $value;
+        }
+        
+        $query = substr($query, 0, strlen($query) - 2) . ")";
+        $fields = substr($fields, 0, strlen($fields) - 2);
+
+        $stmt = $this->pdo->prepare(sprintf($query, $fields));
+
+        for ($i = 0; $i < count($values); $i++) {
+            $type = $this->dbHelper->getValueType($values[$i]);
+            $stmt->bindParam($i + 1, $values[$i], $type);
+        }
+
+        $stmt->execute();
+        return true;
     }
 
     /**
@@ -139,7 +162,12 @@ class DBManager
      */
     public function delete($entityName, $id)
     {
-
+        $tableName = $this->dbHelper->getUnderscoreName($entityName);
+        $query = "DELETE FROM `{$tableName}` WHERE id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
     }
 
 }
