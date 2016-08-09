@@ -33,9 +33,9 @@ class WebController
      * 
      * @return string
      */
-    protected function getTemplate($currentDir, $viewName = null, $data = null)
+    protected function getTemplate($currentDir, $data = null, $viewName = null)
     {
-        $viewName = $viewName ? $viewName : $this->getViewName();
+        $viewName = ($viewName === null) ? $this->getViewName() : $viewName;
 
         return $this->parser->parse(
             file_get_contents(
