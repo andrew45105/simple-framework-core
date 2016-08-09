@@ -31,7 +31,11 @@ class ParamsContainer
     public function __construct($paramsFileDir)
     {
         $this->paramsFileDir = $paramsFileDir;
-        $this->validateAndGetParams();
+        try {
+            $this->validateAndGetParams();
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
     }
 
     /**

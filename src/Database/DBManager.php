@@ -41,7 +41,7 @@ class DBManager
         try {
             $this->pdo = new \PDO($dsn, $user, $password, $opt);
         } catch (\PDOException $e) {
-            throw new DatabaseException('Can not create database connection');
+            die('Can not create database connection');
         }
     }
 
