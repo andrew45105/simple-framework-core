@@ -64,7 +64,12 @@ class DBHelper
     {
         $data = [];
 
-        $rc = new \ReflectionClass($entityObject);
+        try {
+            $rc = new \ReflectionClass($entityObject);
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        
         $properties = $rc->getProperties();
 
         foreach ($properties as $property) {
@@ -79,7 +84,7 @@ class DBHelper
             try {
                 $method = $rc->getMethod('get' . $camelCaseName);
                 $value = $method->invoke($entityObject);
-            } catch (\ReflectionException $e) {
+            } catch (\Exception $e) {
                 die($e->getMessage());
             }
 

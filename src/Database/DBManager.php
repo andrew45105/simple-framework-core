@@ -28,20 +28,21 @@ class DBManager
     {
         $this->dbHelper = new DBHelper();
         
-        $host = $paramsContainer->getParam('database_host');
-        $name = $isTestMode ? $paramsContainer->getParam('test_database_name') : $paramsContainer->getParam('database_name');
-        $user = $paramsContainer->getParam('database_user');
-        $password = $paramsContainer->getParam('database_password');
-
-        $dsn = "mysql:host=$host;dbname=$name";
-        $opt = array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-        );
         try {
+            $host = $paramsContainer->getParam('database_host');
+            $name = $isTestMode ? $paramsContainer->getParam('test_database_name') : $paramsContainer->getParam('database_name');
+            $user = $paramsContainer->getParam('database_user');
+            $password = $paramsContainer->getParam('database_password');
+    
+            $dsn = "mysql:host=$host;dbname=$name";
+            $opt = array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+            );
+            
             $this->pdo = new \PDO($dsn, $user, $password, $opt);
-        } catch (\PDOException $e) {
-            die('Can not create database connection');
+        } catch (\Exception $e) {
+            die($e->getMessage());
         }
     }
 
@@ -86,15 +87,15 @@ class DBManager
      */
     public function getBy($entityName, $param)
     {
-        $this->dbHelper->validateParamArray($param);
-
-        $tableName = $this->dbHelper->getUnderscoreName($entityName);
-        $key = array_keys($param)[0];
-        $value = array_values($param)[0];
-
-        $query = "SELECT * FROM `{$tableName}` WHERE `{$key}` = ?";
-
         try {
+            $this->dbHelper->validateParamArray($param);
+    
+            $tableName = $this->dbHelper->getUnderscoreName($entityName);
+            $key = array_keys($param)[0];
+            $value = array_values($param)[0];
+    
+            $query = "SELECT * FROM `{$tableName}` WHERE `{$key}` = ?";
+        
             $stmt = $this->pdo->prepare($query);
 
             $type = $this->dbHelper->getValueType($value);
