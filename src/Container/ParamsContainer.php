@@ -64,26 +64,25 @@ class ParamsContainer
      */
     protected function validateAndGetParams()
     {
+        $filePath = $this->paramsFileDir . '/' . $this->paramsFileName;
 
-        if (!file_exists($this->paramsFileDir . '/' . $this->paramsFileName)) {
+        if (!$file = file($filePath)) {
             throw new ParamsFileNotFoundException($this->paramsFileDir, $this->paramsFileName);
         }
-
-        $file = file($this->paramsFileDir . '/' . $this->paramsFileName);
 
         $requiredParamsCount = 0;
         foreach ($file as $params) {
             $params = explode('=', trim(strip_tags($params)));
 
             if (count($params) != 2) {
-                throw new ParamsFileNotValidException($this->paramsFileName);
+                throw new ParamsFileNotValidException($filePath);
             }
 
             $name = trim(strip_tags($params[0]));
             $value = trim(strip_tags($params[1]));
 
             if ($name == '' || $value == '') {
-                throw new ParamsFileNotValidException($this->paramsFileName);
+                throw new ParamsFileNotValidException($filePath);
             }
             if (in_array($name, $this->requiredParams) && !isset($this->paramsList[$name])) {
                 $requiredParamsCount++;
@@ -92,7 +91,7 @@ class ParamsContainer
         }
 
         if ($requiredParamsCount != count($this->requiredParams)) {
-            throw new ParamsFileNotValidException($this->paramsFileName);
+            throw new ParamsFileNotValidException($filePath);
         }
     }
 

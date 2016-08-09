@@ -35,18 +35,17 @@ class WebController
      */
     protected function getTemplate($currentDir, $data = null, $viewName = null)
     {
-        $viewName = ($viewName === null) ? $this->getViewName() : $viewName;
+        $viewName = $viewName ? $viewName : $this->getViewName();
+        
+        $path = $currentDir . $this->viewsDir . $this->getViewsFolderName() . $viewName . '.lex';
 
-        return $this->parser->parse(
-            file_get_contents(
-                $currentDir .
-                $this->viewsDir .
-                $this->getViewsFolderName() .
-                $viewName .
-                '.lex'
-            ),
-            $data
-        );
+        $content = file_get_contents($path);
+        
+        if (!$content) {
+            die("Parse file error ('{$path}')");
+        }
+        
+        return $this->parser->parse($content, $data);
     }
 
     protected function getViewsDir()

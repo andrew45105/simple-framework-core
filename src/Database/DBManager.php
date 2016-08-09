@@ -62,11 +62,16 @@ class DBManager
     {
         $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $query = "SELECT * FROM `{$tableName}` WHERE id = :id LIMIT 1";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        return $result ? $result[0] : null;
+        
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result ? $result[0] : null;
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
     }
 
     /**
@@ -89,13 +94,17 @@ class DBManager
 
         $query = "SELECT * FROM `{$tableName}` WHERE `{$key}` = ?";
 
-        $stmt = $this->pdo->prepare($query);
+        try {
+            $stmt = $this->pdo->prepare($query);
 
-        $type = $this->dbHelper->getValueType($value);
-        $stmt->bindParam(1, $value, $type);
+            $type = $this->dbHelper->getValueType($value);
+            $stmt->bindParam(1, $value, $type);
 
-        $stmt->execute();
-        return $stmt->fetchAll();
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
     }
 
     /**
@@ -109,9 +118,14 @@ class DBManager
     {
         $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $query = "SELECT * FROM `{$tableName}`";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll();
+        
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
     }
 
     /**
@@ -142,14 +156,18 @@ class DBManager
         $subs = substr($subs, 0, strlen($subs) - 2);
         $fields = substr($fields, 0, strlen($fields) - 2);
 
-        $stmt = $this->pdo->prepare(sprintf($query, $fields, $subs));
+        try {
+            $stmt = $this->pdo->prepare(sprintf($query, $fields, $subs));
 
-        for ($i = 0; $i < count($values); $i++) {
-            $type = $this->dbHelper->getValueType($values[$i]);
-            $stmt->bindParam($i + 1, $values[$i], $type);
+            for ($i = 0; $i < count($values); $i++) {
+                $type = $this->dbHelper->getValueType($values[$i]);
+                $stmt->bindParam($i + 1, $values[$i], $type);
+            }
+            $stmt->execute();
+            
+        } catch (\Exception $e) {
+            die($e->getMessage());
         }
-
-        $stmt->execute();
         return true;
     }
 
@@ -165,9 +183,14 @@ class DBManager
     {
         $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $query = "DELETE FROM `{$tableName}` WHERE id = ?";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
-        $stmt->execute();
+        
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
         return true;
     }
 

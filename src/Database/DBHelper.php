@@ -76,8 +76,12 @@ class DBHelper
             $camelCaseName = $property->getName();
             $underscoreName = $this->getUnderscoreName($camelCaseName);
 
-            $method = $rc->getMethod('get' . $camelCaseName);
-            $value = $method->invoke($entityObject);
+            try {
+                $method = $rc->getMethod('get' . $camelCaseName);
+                $value = $method->invoke($entityObject);
+            } catch (\ReflectionException $e) {
+                die($e->getMessage());
+            }
 
             $data[$underscoreName] = $value;
         }
