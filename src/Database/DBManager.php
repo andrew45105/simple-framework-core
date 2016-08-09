@@ -128,20 +128,21 @@ class DBManager
         $tableName = $this->dbHelper->getUnderscoreName($entityName);
         $data = $this->dbHelper->getInsertingData($entity);
         
-        $query = "INSERT INTO `{$tableName}` (%s) VALUES (";
+        $query = "INSERT INTO `{$tableName}` (%s) VALUES (%s)";
 
         $values = [];
         $fields = '';
+        $subs = '';
         foreach ($data as $field => $value) {
-            $query .= "?, ";
+            $subs .= "?, ";
             $fields .= "`{$field}`, ";
             $values[] = $value;
         }
         
-        $query = substr($query, 0, strlen($query) - 2) . ")";
+        $subs = substr($subs, 0, strlen($subs) - 2);
         $fields = substr($fields, 0, strlen($fields) - 2);
 
-        $stmt = $this->pdo->prepare(sprintf($query, $fields));
+        $stmt = $this->pdo->prepare(sprintf($query, $fields, $subs));
 
         for ($i = 0; $i < count($values); $i++) {
             $type = $this->dbHelper->getValueType($values[$i]);

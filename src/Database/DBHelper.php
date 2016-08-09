@@ -116,7 +116,7 @@ class DBHelper
     public function validateParamArray($paramArray)
     {
         if (!is_array($paramArray)) {
-            throw new ParamArrayNotValidException('Param is not array (' . gettype($paramArray) . ' given)');
+            throw new ParamArrayNotValidException('Param is not array, ' . gettype($paramArray) . ' given');
         }
         if (count($paramArray) != 1) {
             throw new ParamArrayNotValidException('Param array contains more or less than 1 element');

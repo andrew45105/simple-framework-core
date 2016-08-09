@@ -83,7 +83,7 @@ class DBManagerTest extends PHPUnit_Framework_TestCase
 
     public function testGetAll()
     {
-        $this->assertNotNull($this->db->getAll('Article'));
+        $this->assertCount(5, $this->db->getAll('Article'));
     }
 
     public function testSave()

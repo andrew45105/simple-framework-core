@@ -28,18 +28,21 @@ class WebController
      * Return template for response body
      *
      * @param string $currentDir
+     * @param string | null $viewName
      * @param array | null $data
      * 
      * @return string
      */
-    protected function getTemplate($currentDir, $data = null)
+    protected function getTemplate($currentDir, $viewName = null, $data = null)
     {
+        $viewName = $viewName ? $viewName : $this->getViewName();
+
         return $this->parser->parse(
             file_get_contents(
                 $currentDir .
                 $this->viewsDir .
                 $this->getViewsFolderName() .
-                $this->getViewName() .
+                $viewName .
                 '.lex'
             ),
             $data

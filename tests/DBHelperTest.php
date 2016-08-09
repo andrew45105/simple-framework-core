@@ -43,8 +43,7 @@ class DBHelperTest extends PHPUnit_Framework_TestCase
         $article->setText('test text');
         $data = $this->helper->getInsertingData($article);
 
-        $this->assertCount(4, $data);
-        $this->assertArrayHasKey('id', $data);
+        $this->assertCount(3, $data);
         $this->assertArrayHasKey('created_at', $data);
         $this->assertArrayHasKey('title', $data);
         $this->assertArrayHasKey('text', $data);
